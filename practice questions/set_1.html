@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CCAR-P Practice Mock · Set 01 · Items 1–14</title>
+<style>
+:root{--ink:#1a2030;--mut:#5b6478;--line:#e3e7ef;--card:#fff;--bg:#f4f6fa;--ok:#0c7a43;--okbg:#e6f6ec;--no:#b3261e;--nobg:#fbeae9;--pick:#1f5eff;--pickbg:#eaf0ff}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;padding-bottom:56px}
+.wrap{max-width:780px;margin:0 auto;padding:20px 16px}
+header{padding:26px 0 10px}
+.kicker{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--mut);font-weight:700}
+h1{font-size:26px;margin:6px 0 4px}
+.sub{color:var(--mut);font-size:15px}
+.scorebar{position:sticky;top:0;z-index:5;background:var(--bg);padding:10px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:14px;font-weight:600;flex-wrap:wrap}
+.load{font-size:12px;color:var(--mut);font-weight:700}
+.qcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin:18px 0}
+.qnum{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--mut);font-weight:700;margin-bottom:8px}
+.stem{font-size:16px;margin-bottom:14px}
+.opt{display:block;width:100%;text-align:left;background:#fbfcfe;border:1.5px solid var(--line);border-radius:10px;padding:11px 13px;margin:8px 0;font-size:15px;cursor:pointer;transition:.12s;font-family:inherit;color:var(--ink)}
+.opt:hover:not(:disabled){border-color:#b9c4d8}
+.opt .L{font-weight:700;margin-right:6px}
+.opt.picked{border-color:var(--pick);background:var(--pickbg)}
+.opt.right{border-color:var(--ok);background:var(--okbg)}
+.opt.wrong{border-color:var(--no);background:var(--nobg)}
+.opt:disabled{cursor:default;opacity:.96}
+.check{margin-top:10px;background:var(--ink);color:#fff;border:none;border-radius:10px;padding:10px 18px;font-size:15px;font-weight:600;cursor:pointer}
+.check:disabled{background:#aab3c5;cursor:not-allowed}
+.verdict{margin-top:10px;font-size:14px;font-weight:700;display:none}
+.verdict.ok{color:var(--ok);display:block}.verdict.no{color:var(--no);display:block}
+.kfrow{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap;align-items:center}
+.kf-btn{background:#fff;border:1.5px solid var(--ink);color:var(--ink);border-radius:10px;padding:10px 18px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;transition:.12s}
+.kf-btn:not(:disabled):hover{background:#f4f6ff}
+.kf-btn:disabled{border-color:var(--line);color:#aab3c5;cursor:not-allowed}
+.kf-btn.active{background:var(--ink);color:#fff}
+.kf-hint{font-size:12px;color:var(--mut)}
+.kf-panel{display:none;margin-top:12px;border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:0 1px 6px rgba(26,32,48,.06)}
+.kf-panel.open{display:block;animation:kffade .18s ease}
+@keyframes kffade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+.kf-head{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:12px 14px;background:linear-gradient(135deg,#eef4ff,#f4fbf6);border-bottom:1px solid var(--line)}
+.kf-ans{font-size:15px;font-weight:800;color:var(--ok)}
+.kf-meta{display:flex;flex-wrap:wrap;gap:4px}
+.kf-meta .chip{background:#fff;border:1px solid var(--line);border-radius:999px;padding:2px 10px;font-size:11.5px;font-weight:700;color:var(--mut)}
+.kf-sec{padding:11px 14px;border-bottom:1px solid var(--line)}
+.kf-sec h4{font-size:11px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:5px;font-family:inherit}
+.kf-sec p{font-size:14px;margin:0;line-height:1.55}
+.kf-sec.key{background:#f2f5ff}.kf-sec.key h4{color:#2b4ecc}
+.kf-sec.why{background:#f4fbf6}.kf-sec.why h4{color:var(--ok)}
+.kf-sec.traps{background:#fdf6f5}.kf-sec.traps h4{color:#b3261e}
+.kf-sec.traps ul{list-style:none;margin:0;padding:0}
+.kf-sec.traps li{font-size:13.5px;margin:5px 0;line-height:1.5}
+.kf-sec.traps .tcode{display:inline-block;background:#fff;border:1px solid #f0d4d1;border-radius:6px;padding:0 6px;font-size:11px;font-weight:700;color:#b3261e;margin-left:4px;white-space:nowrap}
+.kf-revise{padding:9px 14px;font-size:12.5px;color:var(--mut);background:#fafbfd;border-top:1px dashed var(--line)}
+/* ---- Concept button + modal ---- */
+.cx-btn{background:#1f5eff;border:none;color:#fff;border-radius:10px;padding:10px 18px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;box-shadow:0 1px 4px rgba(31,94,255,.35);transition:.12s}
+.cx-btn:hover{background:#1a4fe0}
+.cx-backdrop{position:fixed;inset:0;background:rgba(16,22,38,.55);backdrop-filter:blur(2px);display:none;align-items:flex-start;justify-content:center;z-index:50;padding:26px 14px;overflow-y:auto}
+.cx-backdrop.on{display:flex}
+.cx-modal{background:#fff;border-radius:18px;max-width:880px;width:100%;box-shadow:0 18px 60px rgba(10,16,34,.35);position:relative;animation:cxpop .16s ease;margin:auto}
+@keyframes cxpop{from{opacity:0;transform:translateY(10px) scale(.985)}to{opacity:1;transform:none}}
+.cx-close{position:absolute;top:12px;right:14px;background:#f1f3f9;border:none;border-radius:50%;width:34px;height:34px;font-size:18px;line-height:1;color:var(--ink);cursor:pointer;font-weight:700}
+.cx-close:hover{background:#e4e8f2}
+.cx-bodywrap{padding:26px 30px 22px}
+.cx-tpl{display:none}
+.cx-k{font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:#1f5eff;font-weight:800;margin-bottom:6px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.cx-ns{background:#eef4ff;border:1px solid #cddcff;color:#2b4ecc;border-radius:999px;padding:1px 10px;font-size:10.5px;letter-spacing:.06em;font-weight:700}
+.cx-t{font-size:23px;font-weight:800;margin:0 0 6px;color:var(--ink)}
+.cx-s{font-size:14.5px;color:var(--mut);margin-bottom:16px}
+/* diagram primitives */
+.diag{margin:14px 0}
+.row{display:flex;gap:12px;align-items:stretch;flex-wrap:wrap;margin:10px 0}
+.col{flex:1;min-width:240px;border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:#fbfcfe}
+.col h5{font-size:12px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px}
+.col.bad{background:#fdf4f3;border-color:#f0d4d1}.col.bad h5{color:#b3261e}
+.col.good{background:#f3fbf6;border-color:#cdeede}.col.good h5{color:#0c7a43}
+.fnode{flex:1;min-width:130px;border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;text-align:center;background:#fff}
+.fnode .big{font-size:26px;line-height:1;margin-bottom:6px}
+.fnode b{display:block;font-size:13.5px}
+.fnode span{display:block;font-size:12px;color:var(--mut);margin-top:2px}
+.fnode em{display:block;font-size:11.5px;font-style:normal;color:#2b4ecc;font-weight:700;margin-top:6px}
+.fnode.wall{border-color:#8a94a8;background:#eef0f5}
+.fnode.pref{border-color:#cddcff;background:#f7f9ff}
+.fnode.bad{border-color:#f0d4d1;background:#fdf4f3}
+.fnode.good{border-color:#cdeede;background:#f3fbf6}
+.fnode.desk{border-color:#2b4ecc;background:#f2f5ff}
+.farr{align-self:center;color:#8b96ad;font-size:20px;font-weight:800;padding:0 2px}
+.mini{border:1px solid var(--line);border-radius:9px;padding:6px 10px;font-size:12.5px;background:#fff;align-self:center}
+.mini.good{border-color:#cdeede;background:#f3fbf6;color:#0c7a43;font-weight:700}
+.mini.bad{border-color:#f0d4d1;background:#fdf4f3;color:#b3261e;font-weight:700}
+.note{background:#f2f5ff;border:1px solid #d6def5;border-radius:12px;padding:11px 14px;font-size:13.5px;margin:12px 0;color:#23315e}
+.note b{color:#2b4ecc}
+.rulebar{margin-top:14px;background:linear-gradient(135deg,#123c1f,#0c7a43);color:#fff;border-radius:12px;padding:12px 16px;font-size:14.5px;font-weight:600}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0}
+.grid2.small .cell{padding:9px 12px}
+.cell{border:1.5px solid var(--line);border-radius:12px;padding:12px 14px;background:#fff}
+.cell b{display:block;font-size:13.5px;margin-bottom:3px}
+.cell span{display:block;font-size:12.5px;color:var(--mut)}
+.cell em{display:block;font-size:12px;font-style:normal;font-weight:700;color:#2b4ecc;margin-top:6px}
+.cell .big{font-size:24px;margin-bottom:4px}
+.cell.good{border-color:#cdeede;background:#f3fbf6}
+.cell.warn{border-color:#f0dfc2;background:#fdf9f0}
+.cell.bad{border-color:#f0d4d1;background:#fdf4f3}
+.cell.rail{border-color:#2b4ecc;background:#f2f5ff}
+.cell.food{border-color:#cdeede;background:#f3fbf6}
+.tape{display:flex;flex:1;border-radius:9px;overflow:hidden;border:1.5px solid var(--line);min-width:300px}
+.tape-row{display:flex;align-items:center;gap:10px;margin:10px 0;flex-wrap:wrap}
+.tlab{font-size:12px;font-weight:800;color:var(--mut);width:110px}
+.seg{padding:9px 10px;font-size:11.5px;font-weight:700;text-align:center;line-height:1.35}
+.seg em{display:block;font-style:normal;font-weight:500;font-size:10px;opacity:.85}
+.seg.sA{background:#dce8ff;color:#1d3f9e;flex:2.4}
+.seg.sB{background:#fff2cc;color:#7a5b00;flex:2.4}
+.seg.sC{background:#ffe1dd;color:#8a2a20;flex:1.4}
+.seg.sD{background:#ffe1dd;color:#8a2a20;flex:1.2}
+.bp{align-self:center;color:#1f5eff;font-size:12px;font-weight:800;white-space:nowrap}
+.lane{border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;margin:8px 0;background:#fff;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.lane h5{width:100%;font-size:12px;text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px}
+.lane.bad{border-color:#f0d4d1;background:#fdf4f3}.lane.bad h5{color:#b3261e}
+.lane.good{border-color:#cdeede;background:#f3fbf6}.lane.good h5{color:#0c7a43}
+.lstep{border:1px solid var(--line);border-radius:8px;padding:5px 9px;font-size:11.5px;font-weight:600;background:#fff}
+.lstep.boom{border-color:#b3261e;background:#fbe3e1;color:#8a2a20;font-weight:800}
+.lstep.win{border-color:#0c7a43;background:#e2f5ea;color:#0c7a43;font-weight:800}
+.larr{color:#8b96ad;font-weight:800;font-size:14px}
+.gauge{border-radius:999px;padding:7px 16px;font-size:13px;font-weight:800;border:2px solid}
+.gauge.g{border-color:#0c7a43;background:#e2f5ea;color:#0c7a43}
+.alarm{border:2px solid #b3261e;background:#fbe3e1;color:#8a2a20;border-radius:12px;padding:11px 14px;font-size:14px;font-weight:700;margin:10px 0}
+.tl{display:flex;gap:0;margin:10px 0;border-radius:10px;overflow:hidden;border:1.5px solid var(--line)}
+.tlseg{flex:1;padding:9px 10px;text-align:center;font-size:12px;font-weight:700;background:#eef0f5;color:#3c465c}
+.tlseg.warn{background:#fff2cc;color:#7a5b00}
+.tlseg.bad{background:#ffe1dd;color:#8a2a20}
+.ladder{display:flex;flex-direction:column;gap:6px;margin:10px 0}
+.lstep.full{border:1px solid #cddcff;background:#f7f9ff;border-radius:9px;padding:8px 12px;font-size:12.5px}
+.lstep.full b{color:#2b4ecc}
+.pipe{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:10px 0}
+.pstep{border:1.5px solid var(--line);border-radius:10px;padding:8px 12px;font-size:12px;font-weight:700;background:#fff;text-align:center}
+.pstep.gate{border-color:#b26a00;background:#fdf6ea;color:#7a5200}
+.pstep.good{border-color:#cdeede;background:#f3fbf6;color:#0c7a43}
+.legend{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
+.stack{display:flex;flex-direction:column;gap:8px;margin:10px 0}
+.lay{border:1.5px solid var(--line);border-left:5px solid #2b4ecc;border-radius:10px;padding:9px 13px;font-size:13px;background:#fbfcfe}
+.lay b{color:#2b4ecc}
+.pt{border:2px solid #b3261e;background:#fbe3e1;color:#8a2a20;border-radius:10px;padding:9px 12px;font-size:13px;font-weight:800;margin-bottom:6px}
+.rangebar{position:relative;height:34px;border-radius:9px;background:#eef0f5;overflow:hidden;margin:6px 0 2px}
+.rangebar .fill{position:absolute;left:0;top:0;bottom:0;width:95%;background:linear-gradient(90deg,#9fd8b4,#0c7a43)}
+.rangebar .mark{position:absolute;right:4px;top:6px;bottom:6px;left:95%;color:#0c7a43;font-size:11px;font-weight:800;display:flex;align-items:center;white-space:nowrap}
+.ovl{display:flex;gap:4px;flex-wrap:wrap;margin:6px 0}
+.ob{border:1.5px solid #f0d4d1;background:#fff;border-radius:8px;padding:4px 9px;font-size:11.5px;font-weight:700;color:#8a2a20}
+.own .ob{border-color:#cdeede;color:#0c7a43}
+
+#results{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin-top:22px;display:none}
+#results h2{font-size:20px;margin-bottom:6px}
+.band{font-size:15px;margin:8px 0}
+.band.mut{color:var(--mut)}
+.again{margin-top:14px;background:var(--ink);color:#fff;border:none;border-radius:10px;padding:10px 18px;font-size:15px;font-weight:600;cursor:pointer}
+footer{margin-top:26px;font-size:12.5px;color:var(--mut);text-align:center;padding:0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kicker">CCAR-P Practice Mock · Set 01 · Items 1–14 of 70 · v1.1 Blueprint (Dec 7, 2026)</div>
+  <h1>Standalone Items 1–14</h1>
+  <div class="sub">Every question carries its own scenario — a different company each time, exactly how the real exam presents its 70 items · answers reveal on click — no explanations, that's the video's job</div>
+</header>
+
+<div class="scorebar">
+  <span><span id="prog">Answered 0 / 14</span> · <span id="score">Score 0</span></span>
+  <span class="load" id="loadinfo">loading…</span>
+</div>
+
+<!-- Q1 -->
+<div class="qcard" data-ans="2">
+  <div class="qnum">Question 1</div>
+  <div class="stem">You are the architect for Asterlink Telecom's customer-support assistant, which summarizes support transcripts and drafts responses for human agents. The national regulator requires that subscriber data — including everything sent to a model — be processed only inside Asterlink's in-country cloud environment, where its data-residency attestations already apply. The product team wants newly released Claude features the week they ship, and the five-person platform team would rather not own a production agent loop. Which option correctly identifies what decides the architecture and the trade-off Asterlink accepts?</div>
+  <button class="opt" data-j="0"><span class="L">A.</span>Deploy on the first-party Anthropic API with a hosted agent runtime; the platform team's ownership preference is binding, and residency is handled by configuring zero-data-retention on the account.</button>
+  <button class="opt" data-j="1"><span class="L">B.</span>Deploy on the first-party Anthropic API to keep day-one feature access; residency is handled by encrypting all requests and signing a data-processing agreement, since encryption satisfies the processing-location requirement.</button>
+  <button class="opt" data-j="2"><span class="L">C.</span>Deploy through the cloud marketplace surface inside Asterlink's in-country environment, running the agent loop on infrastructure Asterlink owns; the residency obligation is binding, and Asterlink accepts feature lag plus ownership of the agent runtime and its session state.</button>
+  <button class="opt" data-j="3"><span class="L">D.</span>Deploy through the cloud marketplace surface with an Anthropic-hosted agent runtime; the residency constraint is binding, and the hosted runtime removes the session-state burden while keeping feature availability current.</button>
+  <div class="kfrow"><button class="cx-btn" data-q="1">Concept</button><button class="kf-btn" disabled>Key Facts</button><span class="kf-hint">unlocks after you answer</span></div>
+  <div class="kf-panel"><div class="kf-head"><span class="kf-ans">Answer: C</span><span class="kf-meta"><span class="chip">D1 · 1.6 ★ Deployment Surface &amp; Agent Runtime Selection — new in v1.1</span><span class="chip">Decide</span><span class="chip">Difficulty M</span></span></div><div class="kf-sec key"><h4>&#10022; Key Fact</h4><p>Hard, evidenced constraints — a residency obligation backed by attestations — eliminate designs before preferences get weighed. Zero-data-retention governs retention, not processing location. Marketplace surfaces buy residency at the price of feature lag and owning the agent runtime. Any option claiming every constraint is satisfied with no trade-off is wrong by construction.</p></div><div class="kf-sec why"><h4>&#10003; Why C is right</h4><p>The regulator-backed in-country processing obligation is a hard, evidenced constraint: it eliminates every design whose model inputs leave Asterlink's in-country cloud boundary. The marketplace surface inside that boundary satisfies it — and the trade-off Asterlink accepts is the one that surface always charges: feature lag behind the first-party API, plus ownership of the agent loop and its session state.</p></div><div class="kf-sec traps"><h4>&#9888; Trap Radar — why the others are wrong</h4><ul><li><b>A</b> — Zero-data-retention is the fridge promise — it governs how long data is held, never where it is processed; and it treats a preference as binding. <span class="tcode">T25 + T24</span></li><li><b>B</b> — Encryption plus a data-processing agreement locks the tiffin on the train — it does not change which kitchen it came from. Encryption ≠ processing location. <span class="tcode">T24</span></li><li><b>D</b> — The pretty lie: hosted runtimes are a first-party option, not available on every surface — and “everything satisfied, nothing traded” is wrong by construction. <span class="tcode">T23</span></li></ul></div><div class="kf-revise">&#128205; Revise: Nov 2026 exam-update video + CCAR-P Ep 07 (surface mapping: CCDV-F Ep 00/12)</div></div>
+</div>
+
+<!-- Q2 -->
+<div class="qcard" data-ans="1">
+  <div class="qnum">Question 2</div>
+  <div class="stem">Harborline Freight's customs agent handles export declarations end to end for ~2,400 shipments a month: intake, document assembly, tariff-classification check against the harmonized-code library, drafting the declaration, and filing it with customs authorities. Customs holds Harborline's licensed brokerage accountable for every misfiled declaration — misclassification penalties reached $310,000 last year — and 37% of shipments involve classification judgment that the code library alone doesn't settle. Which task assignment best fits reversibility, stakes, and accountability?</div>
+  <button class="opt" data-j="0"><span class="L">A.</span>Delegate full declarations, including filings, to the agent; a licensed broker audits a 5% weekly sample, and that audit provides the accountability customs requires.</button>
+  <button class="opt" data-j="1"><span class="L">B.</span>The agent assembles documents, runs the classification check, and drafts every declaration with cited codes; licensed brokers review and file all judgment-involved declarations, while low-value shipments that clear de minimis checks file automatically under audit logging.</button>
+  <button class="opt" data-j="2"><span class="L">C.</span>Keep humans in every step from intake onward — document assembly included — because customs accountability requires human involvement at each stage of the workflow.</button>
+  <button class="opt" data-j="3"><span class="L">D.</span>Delegate filings to the agent with a self-reported confidence score attached; a broker reviews only the declarations scoring below 0.7, and accountability attaches to the score threshold.</button>
+  <div class="kfrow"><button class="cx-btn" data-q="2">Concept</button><button class="kf-btn" disabled>Key Facts</button><span class="kf-hint">unlocks after you answer</span></div>
+  <div class="kf-panel"><div class="kf-head"><span class="kf-ans">Answer: B</span><span class="kf-meta"><span class="chip">D1 · 1.1 Task Delegation Between Claude and Humans</span><span class="chip">Decide</span><span class="chip">Difficulty E/M</span></span></div><div class="kf-sec key"><h4>&#10022; Key Fact</h4><p>Task delegation is decided by reversibility, stakes, and accountability — never by capability. The agent drafts; the accountable human signs the consequential decision; low-stakes reversible steps run automatically under audit logging.</p></div><div class="kf-sec why"><h4>&#10003; Why B is right</h4><p>Drafting declarations with cited codes is reversible and verifiable — perfect agent work. Judgment-involved filings carry customs accountability and license-level stakes, so a licensed broker reviews and files every one. Low-value shipments that clear de minimis checks are low-stakes and auditable, so they flow straight through.</p></div><div class="kf-sec traps"><h4>&#9888; Trap Radar — why the others are wrong</h4><ul><li><b>A</b> — A 5% weekly audit cannot own accountability for judgment-involved filings already submitted to customs — the other 95% already went out the door. <span class="tcode">T28</span></li><li><b>C</b> — Humans in every step, document assembly included — that's not safety, that's queue. <span class="tcode">T28</span></li><li><b>D</b> — A self-reported confidence score is a feeling with a decimal point — not a control customs will accept. <span class="tcode">T8 + T27</span></li></ul></div><div class="kf-revise">&#128205; Revise: CCAR-P Ep 01 + Ep 13</div></div>
+</div>
+
+<!-- Q3 MR -->
+<div class="qcard mr" data-ans="1,3">
+  <div class="qnum">Question 3 · Select TWO</div>
+  <div class="stem">Northgate Marketplace's listing-compliance coordinator spawns three subagents — product-safety rules, restricted-items policy, and regional labeling requirements — for bundle listings that touch all three. Across last month's 176 bundle listings, the final review contradicted itself in 26 cases — flagging a bundle as restricted while approving the accessory it ships with — and engineers cannot reconstruct which subagent produced which conclusion, because intermediate inputs and outputs are not logged per subagent. Which TWO changes fix this? (Select TWO.)</div>
+  <button class="opt" data-j="0"><span class="L">A.</span>Add a fourth generalist subagent that re-checks the other three subagents' conclusions and outvotes any contradiction it finds.</button>
+  <button class="opt" data-j="1"><span class="L">B.</span>Redraw the task boundaries so each compliance question has exactly one owning subagent, with bundle interactions assigned explicitly instead of split across all three.</button>
+  <button class="opt" data-j="2"><span class="L">C.</span>Instruct the coordinator to re-run conflicting subagents until their outputs agree, then synthesize only from consistent results.</button>
+  <button class="opt" data-j="3"><span class="L">D.</span>Require every subagent to return structured findings with rule IDs and citations, and log each subagent's full input and output so any synthesis failure can be reconstructed from traces.</button>
+  <button class="opt" data-j="4"><span class="L">E.</span>Move the coordinator to a larger model tier so synthesis can resolve denser, conflicting subagent input without changes to the decomposition.</button>
+  <button class="check" disabled>Check answer</button>
+  <div class="kfrow"><button class="cx-btn" data-q="3">Concept</button><button class="kf-btn" disabled>Key Facts</button><span class="kf-hint">unlocks after you answer</span></div>
+  <div class="verdict"></div>
+  <div class="kf-panel"><div class="kf-head"><span class="kf-ans">Answers: B + D</span><span class="kf-meta"><span class="chip">D1 · 1.4 Orchestrator &amp; Subagent Decomposition</span><span class="chip">Diagnose</span><span class="chip">Difficulty H</span></span></div><div class="kf-sec key"><h4>&#10022; Key Fact</h4><p>Decomposition failures are boundary failures and traceability failures. Fix the partition — one owning subagent per question, interactions assigned explicitly — and the logging — structured, cited, per-subagent input/output. Re-running subagents until they agree suppresses real conflicts.</p></div><div class="kf-sec why"><h4>&#10003; Why B + D are right</h4><p>Two requirements fail: correctness (three overlapping scopes hand the synthesis contradictory pieces on bundle interactions) and observability (no per-subagent input/output logging, so no failure can be reconstructed). B removes the contradiction source; D restores the trail.</p></div><div class="kf-sec traps"><h4>&#9888; Trap Radar — why the others are wrong</h4><ul><li><b>A</b> — A fourth generalist that outvotes the others adds another overlapping opinion — not an owner. <span class="tcode">T2</span></li><li><b>C</b> — Agreement-by-persistence hides a genuine rule conflict instead of surfacing it. <span class="tcode">T11</span></li><li><b>E</b> — A bigger coordinator reading broken inputs is still reading broken inputs. <span class="tcode">T3</span></li></ul></div><div class="kf-revise">&#128205; Revise: CCAR-P Ep 02 + Ep 03</div></div>
+</div>
+
+<!-- Q4 -->
+<div class="qcard" data-ans="0">
+  <div class="qnum">Question 4</div>
+  <div class="stem">Cordova Trust Bank's nightly transaction-review pipeline runs ~9,200 customer calls. Each call carries an 8,500-token system prompt with review rules, a 24,000-token sanctions-and-watchlist section refreshed weekly on Mondays, the customer's history (unique per call), and the transaction itself. Prompt caching is on, but with a single breakpoint after the system prompt — and every Monday refresh invalidates everything downstream of it. Cache hit rate sits at 29%. Where should the breakpoints go?</div>
+  <button class="opt" data-j="0"><span class="L">A.</span>Two layered breakpoints — one after the system prompt and tool definitions, one after the weekly watchlist section — so the stable-for-a-week prefix stays cached and only customer history and transaction text reprocess per call.</button>
+  <button class="opt" data-j="1"><span class="L">B.</span>One breakpoint after the watchlist section, with the system prompt moved after the customer history so the largest block of tokens is the one protected.</button>
+  <button class="opt" data-j="2"><span class="L">C.</span>Breakpoints after every major block — system prompt, watchlist section, customer history, transaction text — to maximize the number of cache-adjacency opportunities per call.</button>
+  <button class="opt" data-j="3"><span class="L">D.</span>Remove the watchlist section from the prompt entirely and retrieve individual watchlist entries per transaction, eliminating the weekly invalidation instead of caching around it.</button>
+  <div class="kfrow"><button class="cx-btn" data-q="4">Concept</button><button class="kf-btn" disabled>Key Facts</button><span class="kf-hint">unlocks after you answer</span></div>
+  <div class="kf-panel"><div class="kf-head"><span class="kf-ans">Answer: A</span><span class="kf-meta"><span class="chip">D2 · 2.5 Cache Breakpoints &amp; Reusable Packaging</span><span class="chip">Know / Decide</span><span class="chip">Difficulty M</span></span></div><div class="kf-sec key"><h4>&#10022; Key Fact</h4><p>Order context stable-first and place cache breakpoints where the change cadence changes. Layered breakpoints keep a weekly-stable prefix cached while per-call content reprocesses. Never place dynamic content before stable content.</p></div><div class="kf-sec why"><h4>&#10003; Why A is right</h4><p>Two change cadences mean two cacheable prefixes: the system prompt and tool definitions change almost never; the watchlist section changes Mondays. A second breakpoint after the watchlist section keeps about 32,000 stable tokens cached all week — only customer history and transaction text reprocess per call.</p></div><div class="kf-sec traps"><h4>&#9888; Trap Radar — why the others are wrong</h4><ul><li><b>B</b> — Moves the rough work in front of the formula sheet — dynamic before stable poisons the cache for everything after it. <span class="tcode">cache-order</span></li><li><b>C</b> — Breakpoints after never-repeating blocks buy nothing — ceremony, not savings. <span class="tcode">T2</span></li><li><b>D</b> — Replaces a cacheable weekly-stable prefix with ~9,200 extra retrieval calls a night — right technique, wrong problem. <span class="tcode">T4</span></li></ul></div><div class="kf-revise">&#128205; Revise: CCAR-P Ep 05</div></div>
+</div>
+
+<!-- Q5 -->
+<div class="qcard" data-ans="2">
+  <div class="qnum">Question 5</div>
+  <div class="stem">Support engineers at Relaydesk, a B2B customer-success platform, run the troubleshooting copilot across six-hour queue sessions covering 30–40 customer cases each. After roughly two hours, conversation compaction kicks in — and engineers report the copilot starts re-asking for facts it verified an hour earlier: the customer's support tier, open incident IDs, the escalation contact. Twice it cited a premium entitlement the customer doesn't even have, and the drift is worst in the longest-running cases. What most directly addresses the degradation?</div>
+  <button class="opt" data-j="0"><span class="L">A.</span>Disable compaction for engineer sessions and raise the session context budget so the full transcript stays available across the whole shift.</button>
+  <button class="opt" data-j="1"><span class="L">B.</span>Start a fresh session per customer the moment compaction triggers, pasting the compacted summary into the new session's opening message so context carries over.</button>
+  <button class="opt" data-j="2"><span class="L">C.</span>Maintain a structured case-facts block — verified fields like support tier, open incidents, escalation contact — outside the compacted transcript, re-injected as canonical context after every compaction.</button>
+  <button class="opt" data-j="3"><span class="L">D.</span>Add a system-prompt instruction that the copilot must never re-ask for previously provided information, with a correction protocol for when it does.</button>
+  <div class="kfrow"><button class="cx-btn" data-q="5">Concept</button><button class="kf-btn" disabled>Key Facts</button><span class="kf-hint">unlocks after you answer</span></div>
+  <div class="kf-panel"><div class="kf-head"><span class="kf-ans">Answer: C</span><span class="kf-meta"><span class="chip">D2 · 2.6 Reasoning Effort &amp; Context Lifecycle</span><span class="chip">Diagnose</span><span class="chip">Difficulty M</span></span></div><div class="kf-sec key"><h4>&#10022; Key Fact</h4><p>Facts the task needs must live in a structure that survives compression — a structured case-facts block maintained outside the transcript and re-injected after every compaction. Compaction summarizes prose; it must never be the only home for canonical fields.</p></div><div class="kf-sec why"><h4>&#10003; Why C is right</h4><p>The failure is loss of verified case facts at compaction time — the summary blurs exactly the fields the task still needs. A case-facts block (support tier, open incidents, escalation contact) re-injected after every compaction keeps canonical facts verbatim no matter how the conversation is compressed.</p></div><div class="kf-sec traps"><h4>&#9888; Trap Radar — why the others are wrong</h4><ul><li><b>A</b> — A bigger context window only postpones the cliff and multiplies the bill. <span class="tcode">T3</span></li><li><b>B</b> — Re-imports the same lossy summary — the facts were already blurred at compaction. <span class="tcode">T21</span></li><li><b>D</b> — You cannot instruct a model to remember what the context no longer contains — a rule against physics. <span class="tcode">T1</span></li></ul></div><div class="kf-revise">&#128205; Revise: CCAR-P Ep 05 (+ CCDV-F Ep 06 for the lifecycle tools)</div></div>
+</div>
+
+<!-- Q6 MR -->
+<div class="qcard mr" data-ans="0,3">
+  <div class="qnum">Question 6 · Select TWO</div>
+  <div class="stem">Solstice Air's rebooking agent calls a refund tool during irregular-operations handling. In a recent pricing-system outage, the integration layer took a burst of 529 overloaded errors, and the client wrapper retried every failed call with exponential backoff. Morning reconciliation finds 41 passengers refunded twice: for every duplicate, traces show the client timed out waiting after the refunds API had already committed, and the wrapper replayed the whole call. Which TWO changes together stop the duplicates while keeping throughput? (Select TWO.)</div>
+  <button class="opt" data-j="0"><span class="L">A.</span>Attach an idempotency key — derived from the rebooking record ID — to every refund-tool call, so a retried request that repeats a committed refund returns the original result instead of executing it again.</button>
+  <button class="opt" data-j="1"><span class="L">B.</span>Lengthen the client timeout past the refund API's worst-case commit time and cap retries at one attempt per rebooking, so far fewer requests get replayed at all.</button>
+  <button class="opt" data-j="2"><span class="L">C.</span>Move refund issuance into the Message Batches API so surge traffic queues overnight instead of competing with real-time requests during outages.</button>
+  <button class="opt" data-j="3"><span class="L">D.</span>Classify retryability before retrying: retry immediately only failures that provably precede execution, such as connection refused or pre-dispatch validation; on post-dispatch timeouts, query the refund API by idempotency key instead of re-invoking the refund.</button>
+  <button class="opt" data-j="4"><span class="L">E.</span>Add a verification step to the agent's prompt instructing it to confirm no refund exists for the passenger before calling the refund tool again.</button>
+  <button class="check" disabled>Check answer</button>
+  <div class="kfrow"><button class="cx-btn" data-q="6">Concept</button><button class="kf-btn" disabled>Key Facts</button><span class="kf-hint">unlocks after you answer</span></div>
+  <div class="verdict"></div>
+  <div class="kf-panel"><div class="kf-head"><span class="kf-ans">Answers: A + D</span><span class="kf-meta"><span class="chip">D3 · 3.8 ★ Production Reliability Controls — new in v1.1</span><span class="chip">Diagnose</span><span class="chip">Difficulty H</span></span></div><div class="kf-sec key"><h4>&#10022; Key Fact</h4><p>Retry plus side effect equals an idempotency key on the side-effecting call. Classify failures before retrying: provably pre-execution → retry; post-dispatch timeout → query by key, never re-invoke. Tuning timeouts changes accident frequency, not the mechanism.</p></div><div class="kf-sec why"><h4>&#10003; Why A + D are right</h4><p>The trace shows the canonical double-effect race: the client timed out after the refunds API committed, then the wrapper replayed the call. A makes the replay safe — the tool recognizes the key and returns the original result. D stops the blind replay: only provably pre-execution failures retry; post-dispatch timeouts look the refund up instead of paying again.</p></div><div class="kf-sec traps"><h4>&#9888; Trap Radar — why the others are wrong</h4><ul><li><b>B</b> — Longer timeouts, fewer retries — the accident gets rarer, the mechanism stays fully armed. <span class="tcode">T26</span></li><li><b>C</b> — Batch is a throughput answer to a correctness problem — and disruption refunds are customer-facing, not overnight work. <span class="tcode">T18</span></li><li><b>E</b> — The retry lives in the client wrapper — the model never sees it. You cannot prompt your way out of code you don't control. <span class="tcode">T27</span></li></ul></div><div class="kf-revise">&#128205; Revise: Nov 2026 exam-update video + CCAR-P Ep 08 + Ep 12</div></div>
+</div>
+
+<!-- Q7 -->
+<div class="qcard" data-ans="3">
+  <div class="qnum">Question 7</div>
+  <div class="stem">A benefits-eligibility agent for a state Department of Human Services integrates with the case-management system through a single service account holding read/write access to every case record — roughly 900,000 households across the state's programs. The credential sits in a config file inside the agent's deployment repo, and the agent receives the full case record for every request regardless of scope, including household members unrelated to the eligibility question at hand. A security review flags the design. What is the most effective mitigation set?</div>
+  <button class="opt" data-j="0"><span class="L">A.</span>Rotate the service-account credential quarterly and restrict repo access to the platform team, keeping the single account and its access model as is.</button>
+  <button class="opt" data-j="1"><span class="L">B.</span>Move the credential out of the repo by injecting it into the system prompt at runtime, keeping the account's broad access so no workflow step breaks.</button>
+  <button class="opt" data-j="2"><span class="L">C.</span>Add a prompt rule that the agent may only read the case on the current request, plus per-request logging of every case-management call for after-the-fact review.</button>
+  <button class="opt" data-j="3"><span class="L">D.</span>Put a server-side integration proxy between the agent and the case-management system: credentials live in a secrets store the agent never touches, and the proxy scopes each token to the case in session — read-only by default, write scopes granted per workflow step.</button>
+  <div class="kfrow"><button class="cx-btn" data-q="7">Concept</button><button class="kf-btn" disabled>Key Facts</button><span class="kf-hint">unlocks after you answer</span></div>
+  <div class="kf-panel"><div class="kf-head"><span class="kf-ans">Answer: D</span><span class="kf-meta"><span class="chip">D3 · 3.2 Authentication &amp; Authorization Posture</span><span class="chip">Diagnose</span><span class="chip">Difficulty M</span></span></div><div class="kf-sec key"><h4>&#10022; Key Fact</h4><p>Secrets belong to a server-side proxy the model never sees; authority is scoped per request — case in session, read-only default, write per workflow step — never per deployment. Rotation is hygiene, not scoping. Prompt rules are not authorization; logging detects, it does not prevent.</p></div><div class="kf-sec why"><h4>&#10003; Why D is right</h4><p>The design has two defects — exposure (credential in a repo config) and over-broad authority (one account, every case record, read/write). The proxy closes both: credentials live in a secrets store the agent never touches, and each request gets a scoped, least-privilege token.</p></div><div class="kf-sec traps"><h4>&#9888; Trap Radar — why the others are wrong</h4><ul><li><b>A</b> — Rotation and repo ACLs don't narrow an over-powerful key — a fresh copy of the same key ring. <span class="tcode">T4</span></li><li><b>B</b> — Injecting the credential into the system prompt publishes the master key — prompts get logged, cached, read. <span class="tcode">T4</span></li><li><b>C</b> — Politeness is not access control, and logging is detection, not prevention. <span class="tcode">T27</span></li></ul></div><div class="kf-revise">&#128205; Revise: CCAR-P Ep 07</div></div>
+</div>
+
+<!-- Q8 -->
+<div class="qcard" data-ans="1">
+  <div class="qnum">Question 8</div>
+  <div class="stem">For three weeks, Reelmark Streaming's licensing agent cited superseded distribution-agreement versions in 9% of its rights summaries — 47 of the 520 written in that stretch — before a partner's legal team caught one and escalated. The ops dashboard showed token spend, p95 latency, summary throughput, and error counts — all green throughout — and no one could tell which agreement version any summary had used. Which monitoring addition most directly surfaces this failure class?</div>
+  <button class="opt" data-j="0"><span class="L">A.</span>Alert on week-over-week summary-throughput shifts larger than three percentage points, since stale agreements eventually show up as output-pattern drift.</button>
+  <button class="opt" data-j="1"><span class="L">B.</span>Log the retrieved agreement's ID and version alongside every summary, with a groundedness check verifying each citation is current, and alert on mismatches.</button>
+  <button class="opt" data-j="2"><span class="L">C.</span>Sample fifteen summaries a day for human review, alerting when reviewers flag more than one agreement error in a week.</button>
+  <button class="opt" data-j="3"><span class="L">D.</span>Track per-call token consumption and latency distributions to detect the anomalous retrieval behavior that indicates stale context.</button>
+  <div class="kfrow"><button class="cx-btn" data-q="8">Concept</button><button class="kf-btn" disabled>Key Facts</button><span class="kf-hint">unlocks after you answer</span></div>
+  <div class="kf-panel"><div class="kf-head"><span class="kf-ans">Answer: B</span><span class="kf-meta"><span class="chip">D3 · 3.4 Instrumentation &amp; Monitoring Gaps</span><span class="chip">Diagnose</span><span class="chip">Difficulty M</span></span></div><div class="kf-sec key"><h4>&#10022; Key Fact</h4><p>When a failure class names its locus, instrument the locus directly: document ID + version logged per output, plus a groundedness check that citations are current. Topline dashboards stayed green through a 9% grounding failure — proxies don't catch what they don't measure.</p></div><div class="kf-sec why"><h4>&#10003; Why B is right</h4><p>The unanswered question was “which agreement version grounded this summary” — and no telemetry recorded it. Logging the retrieved agreement's ID and version with every summary, plus a currency check on each citation, turns an invisible 9% into an alertable mismatch on day one.</p></div><div class="kf-sec traps"><h4>&#9888; Trap Radar — why the others are wrong</h4><ul><li><b>A</b> — Throughput drift is a lagging proxy — it stayed flat while 9% of citations were wrong. <span class="tcode">T4</span></li><li><b>C</b> — Fifteen human reviews a day is a neighborhood patrol when you could have a doorbell. <span class="tcode">T4</span></li><li><b>D</b> — Token and latency anomalies are two steps removed from citation grounding. <span class="tcode">T4</span></li></ul></div><div class="kf-revise">&#128205; Revise: CCAR-P Ep 08</div></div>
+</div>
+
+<!-- Q9 -->
+<div class="qcard" data-ans="0">
+  <div class="qnum">Question 9</div>
+  <div class="stem">An LLM judge at Falcon Mutual Insurance scores every drafted property-claim response letter against rubrics before release — about 1,100 letters a month. Human-panel agreement held at 86% for six weeks, so the judge looked healthy. Then a calibration study: the team re-scored the same 40 draft pairs with the two drafts swapped in presentation order, nothing else changed — and 13 of the 40 verdicts flipped. Which correction does the evidence call for?</div>
+  <button class="opt" data-j="0"><span class="L">A.</span>Position bias: randomize or swap presentation order and average verdicts across both orders, so a draft's score no longer depends on where it appears.</button>
+  <button class="opt" data-j="1"><span class="L">B.</span>Verbosity bias: add length-normalized rubric anchors, since the judge is systematically favoring the longer draft in each pair.</button>
+  <button class="opt" data-j="2"><span class="L">C.</span>Self-preference: switch the judge to a different model family than the one drafting the letters, calibrated on a human-labeled set.</button>
+  <button class="opt" data-j="3"><span class="L">D.</span>Judge drift: re-anchor the judge against a frozen reference set and schedule weekly human spot checks to re-stabilize the rubric interpretation.</button>
+  <div class="kfrow"><button class="cx-btn" data-q="9">Concept</button><button class="kf-btn" disabled>Key Facts</button><span class="kf-hint">unlocks after you answer</span></div>
+  <div class="kf-panel"><div class="kf-head"><span class="kf-ans">Answer: A</span><span class="kf-meta"><span class="chip">D4 · 4.3 ★ LLM-as-Judge Design &amp; Bias — new in v1.1</span><span class="chip">Diagnose</span><span class="chip">Difficulty H</span></span></div><div class="kf-sec key"><h4>&#10022; Key Fact</h4><p>Judge-bias fingerprints: position = verdicts flip when order swaps (fix: swap-and-average) · verbosity = the longer draft wins (fix: length-normalized anchors) · self-preference = own model family wins (fix: cross-family judge + human calibration) · drift = scores slide over weeks (fix: frozen reference set + spot checks). The stem's experiment names the bias.</p></div><div class="kf-sec why"><h4>&#10003; Why A is right</h4><p>The calibration study isolates one variable: presentation order. Swap only the order, and 13 of 40 verdicts flip — that is position bias's fingerprint, and its correction is order control: randomize or score both orders and average, so a draft's fate stops depending on where it sat.</p></div><div class="kf-sec traps"><h4>&#9888; Trap Radar — why the others are wrong</h4><ul><li><b>B</b> — Length anchors fix longer-always-wins — which the swap study never showed. <span class="tcode">T29</span></li><li><b>C</b> — A cross-family judge fixes self-preference — family patterns, not order patterns. <span class="tcode">T29</span></li><li><b>D</b> — Re-anchoring fixes drift over time — agreement was steady until the chairs swapped. <span class="tcode">T29</span></li></ul></div><div class="kf-revise">&#128205; Revise: Nov 2026 exam-update video + CCAR-P Ep 09</div></div>
+</div>
+
+<!-- Q10 -->
+<div class="qcard" data-ans="2">
+  <div class="qnum">Question 10</div>
+  <div class="stem">The model tier powering Ironvale Manufacturing's supplier-contract review step — 3,000 supplier agreements a quarter, summaries feeding procurement decisions — is deprecated: new deployments freeze in 90 days, existing deployments stop working at month seven. Regression results on the replacement tier: task accuracy flat, p95 latency up 9% (still inside SLO), unit cost up 14%, clause-summary tone ratings down 8 points, and 4 of 160 golden cases now over-hedge. What should the team do within the window?</div>
+  <button class="opt" data-j="0"><span class="L">A.</span>Pin the current model ID and defer migration until the retirement date gets close; accuracy is flat, so the tone drift is cosmetic and can wait.</button>
+  <button class="opt" data-j="1"><span class="L">B.</span>Migrate now and re-baseline the golden set on the replacement tier; the tone drop is expected model behavior, and the new baseline will absorb it as normal.</button>
+  <button class="opt" data-j="2"><span class="L">C.</span>Re-tune the clause-summary prompts and few-shots for the replacement tier, re-baseline the golden set so gates match the new behavior, and migrate inside the window — pinning the current tier only as a fallback until the new evals pass.</button>
+  <button class="opt" data-j="3"><span class="L">D.</span>Defer migration to next quarter and monitor the deprecation timeline; the replacement tier's cost premium may shrink as the version matures.</button>
+  <div class="kfrow"><button class="cx-btn" data-q="10">Concept</button><button class="kf-btn" disabled>Key Facts</button><span class="kf-hint">unlocks after you answer</span></div>
+  <div class="kf-panel"><div class="kf-head"><span class="kf-ans">Answer: C</span><span class="kf-meta"><span class="chip">D4 · 4.7 ★ Model Version Migration — new in v1.1</span><span class="chip">Decide</span><span class="chip">Difficulty M</span></span></div><div class="kf-sec key"><h4>&#10022; Key Fact</h4><p>Deprecation timeline plus regression size decide posture: pin is a bridge, not a plan · re-tune prompts for drifted behaviors · re-baseline evals so gates judge the new behavior honestly · migrate inside the window · defer only while monitored. Re-baselining without re-tuning launders the regression.</p></div><div class="kf-sec why"><h4>&#10003; Why C is right</h4><p>The drift is behavioral and bounded — tone down 8 points, 4 golden cases over-hedging — which re-tuning fixes; flat accuracy and in-SLO latency mean the tier is acceptable. So: re-tune, re-baseline the gates, migrate inside the window with the pinned tier as fallback until the new evals pass.</p></div><div class="kf-sec traps"><h4>&#9888; Trap Radar — why the others are wrong</h4><ul><li><b>A</b> — Pinning buys time until the removal date and nothing more — the kitchen still needs repacking when you wake up. <span class="tcode">T31</span></li><li><b>B</b> — Moves in and rewrites the ledger so the cracked floor reads as normal — the baseline should catch the regression, not launder it. <span class="tcode">T31</span></li><li><b>D</b> — Waiting a quarter against a dated eviction is timeline denial. <span class="tcode">T31</span></li></ul></div><div class="kf-revise">&#128205; Revise: Nov 2026 exam-update video + CCAR-P Ep 10/Ep 11</div></div>
+</div>
+
+<!-- Q11 -->
+<div class="qcard" data-ans="1">
+  <div class="qnum">Question 11</div>
+  <div class="stem">Bridgeport Financial's loan-modification workflow runs: intake verification, hardship-policy check, drafting, issuing the borrower decision, and scheduling any required housing-counselor referral. Approvals are 74% of volume. Denials trigger appeals and regulatory scrutiny — and lending rules require credit-officer sign-off on denials. The target is 95% of decisions within 5 business days; the first build gates every step behind human approval and lands at an 11-day median. Which revision keeps risk acceptable while meeting turnaround?</div>
+  <button class="opt" data-j="0"><span class="L">A.</span>Remove pre-execution gates on denials and rely on same-day credit-officer audit of every issued denial, since all decisions are logged and reversible through appeals.</button>
+  <button class="opt" data-j="1"><span class="L">B.</span>Auto-issue clean approvals that pass policy checks, under audit logging; route every denial to a credit officer as a pre-execution gate; auto-schedule housing-counselor referrals without a gate.</button>
+  <button class="opt" data-j="2"><span class="L">C.</span>Keep one human gate at the drafting step for all decisions, since a reviewer who reads the draft catches problems before any letter issues.</button>
+  <button class="opt" data-j="3"><span class="L">D.</span>Have the agent self-assess a confidence score on each draft and request officer sign-off only below a 0.7 threshold, with every letter logged for audit.</button>
+  <div class="kfrow"><button class="cx-btn" data-q="11">Concept</button><button class="kf-btn" disabled>Key Facts</button><span class="kf-hint">unlocks after you answer</span></div>
+  <div class="kf-panel"><div class="kf-head"><span class="kf-ans">Answer: B</span><span class="kf-meta"><span class="chip">D5 · 5.4 Human-in-the-Loop Checkpoints</span><span class="chip">Decide</span><span class="chip">Difficulty M</span></span></div><div class="kf-sec key"><h4>&#10022; Key Fact</h4><p>Gates sit on the irreversible, high-stakes, or regulator-named step — not everywhere. Clean reversible flows run automatically under audit logging; deterministic side-actions (scheduling) need no gate; self-reported confidence is never the trigger.</p></div><div class="kf-sec why"><h4>&#10003; Why B is right</h4><p>Lending rules name the gate: credit-officer sign-off on denials, before the letter goes out. So denials stop for an officer as a pre-execution gate; clean approvals flow automatically under audit logging — which is what recovers the five-day clock; counselor referrals schedule by themselves.</p></div><div class="kf-sec traps"><h4>&#9888; Trap Radar — why the others are wrong</h4><ul><li><b>A</b> — Same-day audit cannot satisfy a sign-off required before issuance — an appeal reverses a denial, it can't undo the breach. <span class="tcode">T28</span></li><li><b>C</b> — One gate at drafting reviews everything — the 11-day queue survives untouched. <span class="tcode">T28</span></li><li><b>D</b> — A confidence threshold is a feeling with a decimal point — not a control the regulator accepts. <span class="tcode">T27 + T8</span></li></ul></div><div class="kf-revise">&#128205; Revise: CCAR-P Ep 13</div></div>
+</div>
+
+<!-- Q12 -->
+<div class="qcard" data-ans="3">
+  <div class="qnum">Question 12</div>
+  <div class="stem">Equipment manuals and contractor bulletins arrive at Granite Ridge Energy from a third-party standards-body feed its teams have used for years. Last quarter, an audit found the maintenance agent had followed a "field-service note" embedded in a retrieved manual PDF — text instructing agents to fast-track a class of transformer work orders — and approved 17 work orders that skipped required insulation tests. The standards feed is legitimate and contractually required. Which control set closes the path without breaking legitimate use?</div>
+  <button class="opt" data-j="0"><span class="L">A.</span>Add a system-prompt instruction that the agent must ignore any instructions found inside manuals, and strip lines containing imperative verbs during ingestion.</button>
+  <button class="opt" data-j="1"><span class="L">B.</span>Drop the standards feed and require in-house engineers to publish sanitized copies of every manual before the agent can retrieve it.</button>
+  <button class="opt" data-j="2"><span class="L">C.</span>Route every work order whose evidence includes an externally sourced document to human review before approval, regardless of complexity.</button>
+  <button class="opt" data-j="3"><span class="L">D.</span>Ingest retrieved manuals as clearly delimited evidence — never as instructions — under the prompt hierarchy; extract maintenance criteria into a structured, validated format that a deterministic rules engine evaluates; and require reviewer sign-off when a work order's basis contains instruction-like text from a document.</button>
+  <div class="kfrow"><button class="cx-btn" data-q="12">Concept</button><button class="kf-btn" disabled>Key Facts</button><span class="kf-hint">unlocks after you answer</span></div>
+  <div class="kf-panel"><div class="kf-head"><span class="kf-ans">Answer: D</span><span class="kf-meta"><span class="chip">D5 · 5.2 Prompt Injection Surface &amp; Controls</span><span class="chip">Diagnose</span><span class="chip">Difficulty H</span></span></div><div class="kf-sec key"><h4>&#10022; Key Fact</h4><p>The injection surface is every untrusted token source — retrieved documents, tool results, MCP responses, third-party Skills. Controls: delimit untrusted content as data under the prompt hierarchy; move consequential decisions into deterministic code over structured, validated criteria; gate side-effects triggered by instruction-like content.</p></div><div class="kf-sec why"><h4>&#10003; Why D is right</h4><p>The instructions arrived through a legitimate, contractually required feed — so the control must close the instruction path without closing the source. Manuals enter as delimited evidence, the work-order decision moves into a deterministic rules engine over extracted criteria, and instruction-like text triggers reviewer sign-off.</p></div><div class="kf-sec traps"><h4>&#9888; Trap Radar — why the others are wrong</h4><ul><li><b>A</b> — An ignore-instructions prompt line is asking nicely — probabilistic defense against a deterministic attack; and verb-stripping shreds real manuals, which are full of instructions addressed to humans. <span class="tcode">T1</span></li><li><b>B</b> — Dropping the feed breaks the contractual workflow and dumps an impossible queue on in-house engineers. <span class="tcode">T10</span></li><li><b>C</b> — Gating every externally sourced work order gates everything — the whole library is external. The pipeline stops. <span class="tcode">T28</span></li></ul></div><div class="kf-revise">&#128205; Revise: CCAR-P Ep 12 (+ CCDV-F Ep 04)</div></div>
+</div>
+
+<!-- Q13 -->
+<div class="qcard" data-ans="0">
+  <div class="qnum">Question 13</div>
+  <div class="stem">In the handoff for a school-district contract covering 14,000 students across 38 schools, Scholaris's account team committed to: "100% of student essay feedback generated by the platform within 5 minutes, 100% rubric-accurate against the district's scoring guide, at a flat per-essay cost." Engineering receives the requirement sheet ten days before the contract goes for signature. Which reading of the commitments is correct, and what is the professional response?</div>
+  <button class="opt" data-j="0"><span class="L">A.</span>Per-response correctness and hard per-request guarantees are unsupportable: commit to population-level targets with measured distributions — for example 95% of essays returned within one class period, sampled rubric accuracy at or above 96% — with the grade-critical slice routed to teacher review under its own SLA.</button>
+  <button class="opt" data-j="1"><span class="L">B.</span>Only the flat per-essay cost is unsupportable; quote a cost range per essay length tier and hold the five-minute and 100%-accuracy commitments as written.</button>
+  <button class="opt" data-j="2"><span class="L">C.</span>All three commitments are achievable with engineering headroom: reserve dedicated throughput, pin the frontier model tier, and add a verification pass before every feedback submission.</button>
+  <button class="opt" data-j="3"><span class="L">D.</span>Accept the commitments and carry an internal exception budget — say 5% of essays may miss the SLA — that district-facing reporting rounds down to zero.</button>
+  <div class="kfrow"><button class="cx-btn" data-q="13">Concept</button><button class="kf-btn" disabled>Key Facts</button><span class="kf-hint">unlocks after you answer</span></div>
+  <div class="kf-panel"><div class="kf-head"><span class="kf-ans">Answer: A</span><span class="kf-meta"><span class="chip">D6 · 6.1 Unsupportable Commitments in Requirements &amp; SLAs</span><span class="chip">Diagnose</span><span class="chip">Difficulty E</span></span></div><div class="kf-sec key"><h4>&#10022; Key Fact</h4><p>Unsupportable commitments: per-response correctness, hard per-request latency at 100%, flat per-answer cost at burst volume. The professional response: population-level accuracy with sampling, percentile turnaround ranges, and a human-reviewed slice for the correctness-critical cases under its own SLA.</p></div><div class="kf-sec why"><h4>&#10003; Why A is right</h4><p>A probabilistic system has a distribution, not a destiny — per-response perfection is a five-minutes-away promise. What engineering can sign is population-level: 95% of essays inside one class period, sampled rubric accuracy at or above 96%, grade-critical work routed to teacher review.</p></div><div class="kf-sec traps"><h4>&#9888; Trap Radar — why the others are wrong</h4><ul><li><b>B</b> — Fixes only the cost line and signs the two impossible terms. <span class="tcode">T35</span></li><li><b>C</b> — Reserved throughput and a verification pass buy headroom, not certainty — capacity is not perfection. <span class="tcode">T3 + T35</span></li><li><b>D</b> — An exception budget rounded down in district reporting is misreporting with extra steps. <span class="tcode">T10</span></li></ul></div><div class="kf-revise">&#128205; Revise: CCAR-P Ep 14</div></div>
+</div>
+
+<!-- Q14 MR -->
+<div class="qcard mr" data-ans="1,4">
+  <div class="qnum">Question 14 · Select TWO</div>
+  <div class="stem">The developer-experience team at Pylon Software has a Claude Code workflow — a release-notes slash command, a dependency-audit subagent, an MCP server configuration for the internal docs index, and CLAUDE.md conventions — that cut release prep 31%. Six more teams want it. Today it ships as a zip of dotfiles copied from a staff engineer's laptop; two teams already run diverged, stale copies. Which TWO actions make the distribution safe and sustainable? (Select TWO.)</div>
+  <button class="opt" data-j="0"><span class="L">A.</span>Publish a wiki page with the current file contents and a quarterly reminder for each team to re-copy the files and diff them against their local versions.</button>
+  <button class="opt" data-j="1"><span class="L">B.</span>Package the workflow as a plugin — the command, subagent, skills, and MCP configuration together — and publish it to the organization's plugin marketplace, so every team installs and updates from one reviewed source.</button>
+  <button class="opt" data-j="2"><span class="L">C.</span>Grant each team's leads write access to the shared plugin repository so they can tailor its safety hooks and permission settings for their own teams.</button>
+  <button class="opt" data-j="3"><span class="L">D.</span>Move the entire workflow into managed settings enforced identically for every team — including command wording and subagent prompts — so nothing varies by team.</button>
+  <button class="opt" data-j="4"><span class="L">E.</span>Enforce centrally through managed settings what must not vary — permission policy, the MCP server allowlist, approved plugin sources — while teams keep their own optional commands and skills layered on top.</button>
+  <button class="check" disabled>Check answer</button>
+  <div class="kfrow"><button class="cx-btn" data-q="14">Concept</button><button class="kf-btn" disabled>Key Facts</button><span class="kf-hint">unlocks after you answer</span></div>
+  <div class="verdict"></div>
+  <div class="kf-panel"><div class="kf-head"><span class="kf-ans">Answers: B + E</span><span class="kf-meta"><span class="chip">D7 · 7.1 ★ Packaging &amp; Distributing Claude Code Workflows — new in v1.1</span><span class="chip">Decide</span><span class="chip">Difficulty M</span></span></div><div class="kf-sec key"><h4>&#10022; Key Fact</h4><p>Org-wide Claude Code workflows ship as plugins — commands, subagents, skills, MCP configuration — through the organization's marketplace: one reviewed source, no drifted copies. Managed settings enforce what must not vary (permission policy, MCP allowlist, approved plugin sources); teams layer optional commands and skills on top.</p></div><div class="kf-sec why"><h4>&#10003; Why B + E are right</h4><p>The failure is distribution — ad-hoc dotfile copies drift and can't be updated or audited. B packages the workflow as one installable plugin from one reviewed source. E draws the central-vs-team line through managed settings: safety rails enforced centrally, workflow flexibility left to teams.</p></div><div class="kf-sec traps"><h4>&#9888; Trap Radar — why the others are wrong</h4><ul><li><b>A</b> — A wiki page with quarterly re-copy reminders is the status quo with homework attached — copies still drift. <span class="tcode">T32</span></li><li><b>C</b> — Team leads editing shared safety hooks is central safety inverted into local preference — one well-meaning edit and the rails bend. <span class="tcode">T9</span></li><li><b>D</b> — Enforcing command wording and subagent prompts for everyone is the network dictating what each family cooks — the tool stops fitting anyone. <span class="tcode">T2</span></li></ul></div><div class="kf-revise">&#128205; Revise: Nov 2026 exam-update video + CCAR-P Ep 16</div></div>
+</div>
+
+<div class="cx-tpl" id="cxT1">
+<div class="cx-k">Question 1 · Deployment Surface &amp; Residency <span class="cx-ns">concept only — no answer inside</span></div>
+<div class="cx-t">The Constraint Ladder</div>
+<div class="cx-s">Hard, evidenced constraints decide architectures; preferences only choose among the survivors — and every surface buys something at a price.</div>
+<div class="diag"><div class="row">
+ <div class="fnode wall"><div class="big">&#129513;</div><b>Hard constraint</b><span>residency backed by attestations, a legal obligation</span><em>eliminates designs</em></div>
+ <div class="fnode pref"><div class="big">&#10024;</div><b>Preference</b><span>&#8220;newest features the week they ship&#8221;</span><em>chooses among survivors</em></div>
+ <div class="fnode pref"><div class="big">&#128736;&#65039;</div><b>Preference</b><span>&#8220;don&#8217;t own the agent loop&#8221;</span><em>never overrides the wall</em></div>
+</div>
+<div class="row">
+ <div class="mini bad">&#10006; any design where model inputs leave the boundary</div><span class="farr">&#10148;</span><div class="mini good">&#10003; process inside the boundary</div>
+</div>
+<div class="note">Every surface buys something at a price: <b>feature lag</b> behind the first-party API · <b>owning the agent runtime</b> · <b>session-state custody</b>. An option where nothing is traded is a mirage by construction.</div>
+<div class="row">
+ <div class="mini"><b>Retention</b> — how LONG data is held (zero-data-retention)</div><span class="farr">&#8800;</span><div class="mini"><b>Location</b> — WHERE it is processed (residency)</div>
+</div></div>
+<div class="rulebar">&#127991; The one rule: hard, evidenced constraints eliminate designs before preferences get weighed; every surface choice trades something.</div>
+</div>
+<div class="cx-tpl" id="cxT2">
+<div class="cx-k">Question 2 · Task Delegation <span class="cx-ns">concept only — no answer inside</span></div>
+<div class="cx-t">The Delegation Matrix</div>
+<div class="cx-s">Assign work by reversibility and stakes — who bears the cost when it goes wrong — never by what the model is capable of.</div>
+<div class="diag"><div class="grid2">
+ <div class="cell good"><b>&#8635; Reversible · low stakes</b><span>agent runs it — under the audit log</span></div>
+ <div class="cell warn"><b>&#8635; Reversible · high stakes</b><span>agent runs it — verified before the effect lands</span></div>
+ <div class="cell warn"><b>&#9940; Irreversible · low stakes</b><span>run — cheap gate or throttle is enough</span></div>
+ <div class="cell bad"><b>&#9940; Irreversible · high stakes</b><span>&#9997;&#65039; a human signs the consequential decision</span></div>
+</div>
+<div class="note"><b>Capability is not an axis.</b> Accountability is: ask of every step — when this goes wrong, who does the regulator call? The resident can draft the summary all day; the consultant&#8217;s name goes on it.</div></div>
+<div class="rulebar">&#127991; The one rule: delegate by reversibility, stakes, and accountability — the agent drafts; a human signs what carries consequences.</div>
+</div>
+<div class="cx-tpl" id="cxT3">
+<div class="cx-k">Question 3 · Orchestrator &amp; Subagent Decomposition <span class="cx-ns">concept only — no answer inside</span></div>
+<div class="cx-t">One File, One Clerk, One Register</div>
+<div class="cx-s">When a multi-subagent design goes wrong, the failure lives in two places: overlapping boundaries and a missing trail.</div>
+<div class="diag"><div class="row">
+ <div class="col bad"><h5>&#10006; Overlapping scopes</h5>
+  <div class="ovl"><span class="ob">clerk A&#8230; also owns the shared edge</span><span class="ob">clerk B&#8230; also owns the shared edge</span><span class="ob">clerk C&#8230; also owns the shared edge</span></div>
+  <p style="font-size:12.5px">Three partial owners of one interaction &#8594; the synthesis receives contradictory pieces.</p></div>
+ <div class="col good"><h5>&#10003; One owner per question</h5>
+  <div class="ovl own"><span class="ob">question 1 &#8594; clerk A only</span><span class="ob">question 2 &#8594; clerk B only</span><span class="ob">interactions &#8594; assigned, explicitly</span></div>
+  <p style="font-size:12.5px">&#129534; The register: every subagent logs input &#8594; output &#8594; citations, so any failure is a query, not a mystery.</p></div>
+</div>
+<div class="note">Two failure classes, two fixes: <b>the partition</b> (one owner per question, interactions assigned) and <b>the logging</b> (structured, cited, per-subagent). Re-running until the subagents agree hides a genuine conflict instead of surfacing it.</div></div>
+<div class="rulebar">&#127991; The one rule: decomposition failures are boundary failures and traceability failures — fix the partition and the logging, not the model.</div>
+</div>
+<div class="cx-tpl" id="cxT4">
+<div class="cx-k">Question 4 · Cache Breakpoints &amp; Token Economics <span class="cx-ns">concept only — no answer inside</span></div>
+<div class="cx-t">The Change-Cadence Tape</div>
+<div class="cx-s">A prompt is a tape of blocks that change at different speeds — breakpoints belong where the change cadence changes.</div>
+<div class="diag"><div class="tape-row"><span class="tlab">One breakpoint</span>
+ <div class="tape"><div class="seg sA">system prompt + tools<em>changes ~never</em></div><span class="bp">&#9650; bp</span><div class="seg sB">reference section<em>changes weekly</em></div><div class="seg sC">history<em>unique</em></div><div class="seg sD">item<em>unique</em></div></div>
+ <span class="mini bad">weekly refresh burns everything after</span></div>
+<div class="tape-row"><span class="tlab">Layered</span>
+ <div class="tape"><div class="seg sA">system prompt + tools<em>changes ~never</em></div><span class="bp">&#9650; bp 1</span><div class="seg sB">reference section<em>changes weekly</em></div><span class="bp">&#9650; bp 2</span><div class="seg sC">history<em>unique</em></div><div class="seg sD">item<em>unique</em></div></div>
+ <span class="mini good">weekly-stable prefix survives</span></div>
+<div class="note">Board-exam desk: formula sheet (never changes) &#183; class notes (weekly) &#183; rough-work pad (every problem). Photocopy the sheet and the notes — nobody photocopies yesterday&#8217;s rough work.</div></div>
+<div class="rulebar">&#127991; The one rule: order content stable-first and place breakpoints where the change cadence changes.</div>
+</div>
+<div class="cx-tpl" id="cxT5">
+<div class="cx-k">Question 5 · Context Lifecycle &amp; Compaction <span class="cx-ns">concept only — no answer inside</span></div>
+<div class="cx-t">The Chart Survives Compaction</div>
+<div class="cx-s">Compaction summarizes prose — and prose is where verified facts die. Canonical fields must live outside the transcript.</div>
+<div class="diag"><div class="row">
+ <div class="fnode"><div class="big">&#128196;</div><b>Full transcript</b><span>facts sit inside prose</span></div>
+ <span class="farr">&#10148;</span>
+ <div class="fnode bad"><div class="big">&#9986;&#65039;</div><b>Compaction</b><span>summarizes to save space</span></div>
+ <span class="farr">&#10148;</span>
+ <div class="fnode bad"><div class="big">&#127787;&#65039;</div><b>Summary</b><span>numbers &amp; names smudged</span></div>
+</div>
+<div class="note" style="text-align:center">&#128230; <b>Case-facts card</b> — verified fields only, maintained outside the transcript &#10148; re-injected as canonical context <b>after every compaction</b> &#8617;</div>
+<div class="note">Shift-handover versus patient chart: the handover is useful but lossy; the chart is boring and exact. Trust the chart for the allergy list.</div></div>
+<div class="rulebar">&#127991; The one rule: facts the task needs must live in a structure that survives compression — compaction must never be their only home.</div>
+</div>
+<div class="cx-tpl" id="cxT6">
+<div class="cx-k">Question 6 · Production Reliability Controls <span class="cx-ns">concept only — no answer inside</span></div>
+<div class="cx-t">The Reference Number</div>
+<div class="cx-s">A timeout after a side-effect has already executed is the classic double-effect race — and the fix is an idempotency key, not tuning.</div>
+<div class="diag"><div class="lane bad"><h5>Without a key</h5>
+ <span class="lstep">send payment</span><span class="larr">&#10148;</span><span class="lstep">server executes &#10003;</span><span class="larr">&#10148;</span><span class="lstep">client times out &#10007;</span><span class="larr">&#10148;</span><span class="lstep boom">retry &#8594; &#128165; paid twice</span></div>
+<div class="lane good"><h5>With an idempotency key</h5>
+ <span class="lstep">send + &#128273; key</span><span class="larr">&#10148;</span><span class="lstep">server executes &#10003;</span><span class="larr">&#10148;</span><span class="lstep">times out &#10007;</span><span class="larr">&#10148;</span><span class="lstep win">retry, SAME key &#8594; &#8220;already done — here&#8217;s the original result&#8221; &#10003;</span></div>
+<div class="grid2 small">
+ <div class="cell good"><b>Failure provably BEFORE execution</b><span>connection refused &#183; validation — nothing ran, retry now</span></div>
+ <div class="cell warn"><b>Timeout AFTER dispatch = unknown state</b><span>look up the effect by key — never replay it</span></div>
+</div>
+<div class="note">The UPI moment: the machine says &#8220;failed&#8221;, you show the reference number — the merchant finds the original transaction and nobody pays twice. Longer timeouts and fewer retries only make the accident rarer; the mechanism stays armed.</div></div>
+<div class="rulebar">&#127991; The one rule: retry plus side effect equals an idempotency key; when a timeout is ambiguous, look up the effect — never replay it.</div>
+</div>
+<div class="cx-tpl" id="cxT7">
+<div class="cx-k">Question 7 · Authentication &amp; Authorization Posture <span class="cx-ns">concept only — no answer inside</span></div>
+<div class="cx-t">The Day Pass</div>
+<div class="cx-s">Two separate defects hide in one integration: where the key lives (exposure) and how much it opens (over-breadth).</div>
+<div class="diag"><div class="row">
+ <div class="col bad"><h5>&#10006; The key ring</h5>
+  <div class="row" style="margin:4px 0"><div class="fnode"><div class="big">&#129302;</div><b>agent</b><span>holds &#128273; master key&#8230; stored in a repo config</span></div><span class="farr">&#10148;</span><div class="fnode bad"><div class="big">&#128451;&#65039;</div><b>every record</b><span>read + write, all of them</span></div></div></div>
+ <div class="col good"><h5>&#10003; The day pass</h5>
+  <div class="row" style="margin:4px 0"><div class="fnode"><div class="big">&#129302;</div><b>agent</b><span>sees no credentials at all</span></div><span class="farr">&#10148;</span><div class="fnode desk"><div class="big">&#128737;&#65039;</div><b>server-side proxy</b><span>&#128274; secrets store + &#127915; pass scoped to the record in session — read-only default, write per step</span></div><span class="farr">&#10148;</span><div class="fnode"><div class="big">&#128451;&#65039;</div><b>the system</b><span>only what this request needs</span></div></div></div>
+</div>
+<div class="note">The office-building rule: visitors never get the maintenance key ring — the desk holds it and prints a day pass. <b>Rotation is hygiene, not scoping.</b> A prompt rule is politeness, and logging detects — it does not prevent.</div></div>
+<div class="rulebar">&#127991; The one rule: secrets belong to a proxy the model never sees; authority is scoped per request — never per deployment.</div>
+</div>
+<div class="cx-tpl" id="cxT8">
+<div class="cx-k">Question 8 · Instrumentation &amp; Monitoring Gaps <span class="cx-ns">concept only — no answer inside</span></div>
+<div class="cx-t">Watch The Strip, Not The Graph</div>
+<div class="cx-s">Topline dashboards can stay green while the output is quietly wrong — proxies measure around the failure, not at it.</div>
+<div class="diag"><div class="row" style="justify-content:center">
+ <div class="gauge g">tokens &#10003;</div><div class="gauge g">latency &#10003;</div><div class="gauge g">throughput &#10003;</div>
+ <span class="mini">all green&#8230; for three weeks</span>
+</div>
+<div class="alarm">&#128680; retrieved document <b>v4.2</b> — the current one is <b>v5.0</b> &#8594; a version-logged citation check fires on day one</div>
+<div class="note">Medicine-strip rule: when a batch goes bad, you trace the batch number printed on the strip — not the pharmacy&#8217;s monthly sales graph. The information must live exactly where the failure lives.</div></div>
+<div class="rulebar">&#127991; The one rule: when a failure class names its locus, instrument that locus directly — proxies don&#8217;t catch what they don&#8217;t measure.</div>
+</div>
+<div class="cx-tpl" id="cxT9">
+<div class="cx-k">Question 9 · LLM-as-Judge Design &amp; Bias <span class="cx-ns">concept only — no answer inside</span></div>
+<div class="cx-t">The Four Fingerprints</div>
+<div class="cx-s">Judge problems are diagnosed by experiment: each bias has a fingerprint, and the stem always runs one experiment.</div>
+<div class="diag"><div class="grid2">
+ <div class="cell"><div class="big">&#128260;</div><b>Position</b><span>fingerprint: verdicts flip when presentation order swaps</span><em>fix: randomize or swap-and-average</em></div>
+ <div class="cell"><div class="big">&#128207;</div><b>Verbosity</b><span>fingerprint: the longer draft wins, order or no order</span><em>fix: length-normalized rubric anchors</em></div>
+ <div class="cell"><div class="big">&#129680;</div><b>Self-preference</b><span>fingerprint: outputs from the judge&#8217;s own model family win</span><em>fix: cross-family judge + human calibration set</em></div>
+ <div class="cell"><div class="big">&#8987;</div><b>Drift</b><span>fingerprint: scores slide over weeks on the same inputs</span><em>fix: frozen reference set + periodic spot checks</em></div>
+</div>
+<div class="note">The tired examiner: hand the same two essays back in the opposite order and a different one looks better. The essays didn&#8217;t change — the chair did. Read the stem&#8217;s experiment first; it names the bias.</div></div>
+<div class="rulebar">&#127991; The one rule: symptom &#8594; bias &#8594; correction: the experiment the stem runs names the bias, and each bias has exactly one correction.</div>
+</div>
+<div class="cx-tpl" id="cxT10">
+<div class="cx-k">Question 10 · Model Version Migration <span class="cx-ns">concept only — no answer inside</span></div>
+<div class="cx-t">The Eviction Timeline</div>
+<div class="cx-s">A deprecation notice is a dated lease: the timeline and the drift size decide the posture — in a fixed order.</div>
+<div class="diag"><div class="tl">
+ <span class="tlseg">today — replacement tier tested</span><span class="tlseg warn">&#128679; new deployments freeze &#183; day 90</span><span class="tlseg bad">&#9940; everything stops &#183; month 7</span>
+</div>
+<div class="ladder">
+ <span class="lstep full"><b>1 &#183; Pin</b> — keep the old flat as a fallback. A bridge, not a plan.</span>
+ <span class="lstep full"><b>2 &#183; Re-tune</b> — repack what drifted: prompts and few-shots for the behaviors that moved.</span>
+ <span class="lstep full"><b>3 &#183; Re-baseline</b> — update the address ledger so the gates judge the new behavior honestly.</span>
+ <span class="lstep full"><b>4 &#183; Migrate</b> — inside the window, pinned tier as fallback until the new evals pass.</span>
+</div>
+<div class="note">&#9888;&#65039; Re-baselining without re-tuning launders the regression into the new normal — the cracked floor gets written into the ledger as &#8220;fine&#8221;. And deferring past a dated deadline is timeline denial.</div></div>
+<div class="rulebar">&#127991; The one rule: pin, re-tune, re-baseline, migrate — in that order, inside the window; pin is a bridge, never the plan.</div>
+</div>
+<div class="cx-tpl" id="cxT11">
+<div class="cx-k">Question 11 · Human-in-the-Loop Checkpoints <span class="cx-ns">concept only — no answer inside</span></div>
+<div class="cx-t">Gates By Reversibility</div>
+<div class="cx-s">Gates are expensive queue-time — they belong exactly where stakes and rules point, and nowhere else.</div>
+<div class="diag"><div class="pipe">
+ <span class="pstep">intake &#9654;</span><span class="pstep">policy check &#9654;</span><span class="pstep">draft &#9654;</span><span class="pstep gate">ISSUE &#9940; human sign-off before the letter goes out</span><span class="pstep">referral &#128197; auto-schedule</span>
+</div>
+<div class="legend">
+ <span class="mini good">&#9654; runs automatically, under the audit log</span>
+ <span class="mini" style="border-color:#f0dfc2;background:#fdf9f0;color:#7a5200;font-weight:700">&#9940; gate only the irreversible, regulator-named step</span>
+ <span class="mini">&#128197; deterministic side-actions need no gate</span>
+</div>
+<div class="note">Big loans go to the credit committee; small ones clear instantly against criteria; nobody gates a calendar invite. Gate everything and the queue dies — gate nothing and the irreversible step is unprotected.</div></div>
+<div class="rulebar">&#127991; The one rule: gates sit on the irreversible, high-stakes, regulator-named step; everything else runs under audit.</div>
+</div>
+<div class="cx-tpl" id="cxT12">
+<div class="cx-k">Question 12 · Prompt Injection Surface &amp; Controls <span class="cx-ns">concept only — no answer inside</span></div>
+<div class="cx-t">News, Not Orders</div>
+<div class="cx-s">Untrusted content arrives through legitimate channels — treat it as evidence, keep the decisions in code, gate the effects.</div>
+<div class="diag"><div class="stack">
+ <div class="lay"><b>Incoming</b> &#128196; a legitimate feed — inside one document, an embedded &#8220;service note&#8221; &#128172; giving instructions</div>
+ <div class="lay"><b>Layer 1 — evidence</b> delimited as data: &#91;begin excerpt &#8230; end excerpt&#93; under the prompt hierarchy — news, not orders</div>
+ <div class="lay"><b>Layer 2 — decision</b> extract criteria &#8594; structured, validated fields &#8594; &#9881;&#65039; a deterministic rules engine makes the call</div>
+ <div class="lay"><b>Layer 3 — gates</b> &#128680; instruction-like text inside evidence &#8594; human sign-off before any effect</div>
+</div>
+<div class="note">The family group chat: a forward that says &#8220;send OTP to this number&#8221; is information about the world, not an instruction to you. The dinner table still decides — using the chat as input, never as command.</div></div>
+<div class="rulebar">&#127991; The one rule: untrusted content is evidence, never instruction — decisions go to deterministic code, effects get human gates.</div>
+</div>
+<div class="cx-tpl" id="cxT13">
+<div class="cx-k">Question 13 · Unsupportable Commitments &amp; SLAs <span class="cx-ns">concept only — no answer inside</span></div>
+<div class="cx-t">Promise The Train, Not The Traffic</div>
+<div class="cx-s">A probabilistic system has a distribution, not a destiny — honest commitments are populations and percentiles.</div>
+<div class="diag"><div class="row">
+ <div class="col bad"><h5>&#10006; Promise the traffic</h5>
+  <div class="pt">&#8220;100% perfect &#183; every single time &#183; flat cost&#8221;</div>
+  <p style="font-size:12.5px">Per-response perfection on a system with variance — a promise about traffic you don&#8217;t control. The five-minutes-away friend.</p></div>
+ <div class="col good"><h5>&#10003; Promise the train</h5>
+  <div class="rangebar"><span class="fill"></span><span class="mark">95% in the window</span></div>
+  <p style="font-size:12.5px">A percentile turnaround &#183; sampled accuracy on a population &#183; the correctness-critical slice routed to humans under its own SLA.</p></div>
+</div>
+<div class="note">The honest train answer: &#8220;forty to fifty minutes, and here&#8217;s the peak-hour pattern.&#8221; Same journey, same person — one is a statistic you own; the other is a lie about traffic you don&#8217;t.</div></div>
+<div class="rulebar">&#127991; The one rule: populations and percentiles, never per-response perfection — capacity buys headroom, not certainty.</div>
+</div>
+<div class="cx-tpl" id="cxT14">
+<div class="cx-k">Question 14 · Packaging &amp; Distribution <span class="cx-ns">concept only — no answer inside</span></div>
+<div class="cx-t">Rails Central, Food Local</div>
+<div class="cx-s">Drift is a distribution problem: one reviewed source fixes it, and a two-layer split keeps it fixed.</div>
+<div class="diag"><div class="pipe">
+ <span class="pstep">&#129513; command &#183; subagent &#183; skills &#183; MCP config</span><span class="larr">&#10148;</span><span class="pstep">&#128230; plugin</span><span class="larr">&#10148;</span><span class="pstep">&#127978; org marketplace</span><span class="larr">&#10148;</span><span class="pstep good">every team installs the same reviewed version — updates flow</span>
+</div>
+<div class="grid2 small">
+ <div class="cell rail"><b>&#128646; Central rails — managed settings</b><span>permission policy &#183; MCP server allowlist &#183; approved plugin sources — enforced, not suggested</span></div>
+ <div class="cell food"><b>&#127857; Team layer</b><span>optional commands &#183; skills — chosen locally, layered on top</span></div>
+</div>
+<div class="note">The dabbawala system: the network owns the routes, the timings, the coding on the dabba — each home owns what goes in the box today. Central control over the rails; family choice over the food.</div></div>
+<div class="rulebar">&#127991; The one rule: one reviewed source, two layers — enforce what must not vary, layer what may.</div>
+</div>
+<div class="cx-backdrop" id="cxBk">
+ <div class="cx-modal" role="dialog" aria-modal="true" aria-label="Concept explainer">
+  <button class="cx-close" id="cxCloseBtn" aria-label="Close">&times;</button>
+  <div class="cx-bodywrap" id="cxBody"></div>
+ </div>
+</div>
+
+<div id="results">
+  <h2 id="rline"></h2>
+  <div class="band" id="rband"></div>
+  <div class="band mut">Multiple-response items are scored all-or-nothing — exactly like selecting the stated number on exam day.</div>
+  <div class="band mut">Real exam: 70 standalone items, 120 minutes (~1:43 per item), 720 of 1,000 to pass — 10 of the 70 are unscored and unmarked.</div>
+  <button class="again" onclick="location.reload()">Reset quiz</button>
+</div>
+
+<footer>PeaceOfCode · Claude Certified Architect Professional course · Unofficial practice questions — not affiliated with Anthropic</footer>
+
+</div>
+
+<script>
+(function(){
+var cards=[].slice.call(document.querySelectorAll('.qcard'));
+var total=cards.length,answered=0,correct=0;
+document.getElementById('loadinfo').textContent=total+' / 14 questions loaded';
+var bk=document.getElementById('cxBk');
+function cxCls(){bk.classList.remove('on');document.getElementById('cxBody').innerHTML='';}
+document.getElementById('cxCloseBtn').addEventListener('click',cxCls);
+bk.addEventListener('click',function(e){if(e.target===bk)cxCls();});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')cxCls();});
+[].forEach.call(document.querySelectorAll('.cx-btn'),function(b){
+ b.addEventListener('click',function(){
+  var t=document.getElementById('cxT'+b.getAttribute('data-q'));
+  if(!t)return;
+  document.getElementById('cxBody').innerHTML=t.innerHTML;
+  bk.classList.add('on');
+ });
+});
+[].forEach.call(document.querySelectorAll('.kf-btn'),function(b){
+ b.addEventListener('click',function(){
+  var p=b.closest('.qcard').querySelector('.kf-panel');
+  p.classList.toggle('open');var on=p.classList.contains('open');
+  b.classList.toggle('active',on);
+  b.textContent=on?'Hide Key Facts':'Key Facts';
+ });
+});
+document.getElementById('prog').textContent='Answered 0 / '+total;
+function bar(){document.getElementById('prog').textContent='Answered '+answered+' / '+total;document.getElementById('score').textContent='Score '+correct}
+function fin(){if(answered===total){var r=document.getElementById('results');r.style.display='block';document.getElementById('rline').textContent='You scored '+correct+' / '+total;
+var b;if(correct>=12)b='Exam-ready on these items — you are thinking like a production owner.';else if(correct>=9)b='Close — replay your misses and name the trap that caught you.';else b='Revise the episodes listed in the walkthrough, rest a day, then rerun these items cold.';
+document.getElementById('rband').textContent=b;r.scrollIntoView({behavior:'smooth'})}}
+cards.forEach(function(c){
+var ans=c.getAttribute('data-ans').split(',').map(Number);
+var opts=[].slice.call(c.querySelectorAll('.opt'));
+var isMR=c.classList.contains('mr');
+if(!isMR){
+ opts.forEach(function(b){b.addEventListener('click',function(){
+  if(c.getAttribute('data-done'))return;c.setAttribute('data-done','1');answered++;var kb=c.querySelector('.kf-btn');if(kb)kb.disabled=false;
+  var j=+b.getAttribute('data-j');
+  opts.forEach(function(x){x.disabled=true;var k=+x.getAttribute('data-j');if(ans.indexOf(k)>-1)x.classList.add('right')});
+  if(ans.indexOf(j)>-1){correct++;b.classList.add('right')}else{b.classList.add('wrong')}
+  bar();fin();
+ })});
+}else{
+ var chk=c.querySelector('.check'),v=c.querySelector('.verdict'),sel=[];
+ opts.forEach(function(b){b.addEventListener('click',function(){
+  if(c.getAttribute('data-done'))return;
+  var j=+b.getAttribute('data-j'),ix=sel.indexOf(j);
+  if(ix>-1){sel.splice(ix,1);b.classList.remove('picked')}
+  else if(sel.length<2){sel.push(j);b.classList.add('picked')}
+  chk.disabled=(sel.length!==2);
+ })});
+ chk.addEventListener('click',function(){
+  if(c.getAttribute('data-done')||sel.length!==2)return;c.setAttribute('data-done','1');answered++;var kb=c.querySelector('.kf-btn');if(kb)kb.disabled=false;
+  var win=ans.every(function(a){return sel.indexOf(a)>-1});
+  opts.forEach(function(x){x.disabled=true;var k=+x.getAttribute('data-j');
+   if(ans.indexOf(k)>-1)x.classList.add('right');else if(sel.indexOf(k)>-1)x.classList.add('wrong');
+   x.classList.remove('picked')});
+  if(win){correct++;v.textContent='Correct — both selected answers match.';v.className='verdict ok'}
+  else{v.textContent='Not quite — the correct pair is highlighted in green.';v.className='verdict no'}
+  bar();fin();
+ });
+}
+});
+})();
+</script>
+</body>
+</html>
